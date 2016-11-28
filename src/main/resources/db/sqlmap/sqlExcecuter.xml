@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="sqlExecuter">
+
+	<select id="selectListBySql" parameterClass="java.lang.String" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[ $sql$ ]]>
+	</select>
+
+	<select id="selectMapBySql" parameterClass="java.lang.String" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[ $sql$ ]]>
+	</select>
+
+	<update id="updateBySql" parameterClass="java.lang.String">
+		<![CDATA[ $sql$ ]]>
+	</update>
+
+	<insert id="insertBySql" parameterClass="java.lang.String" >
+		<![CDATA[ $sql$ ]]>
+	</insert>
+	
+	<insert id="insertBySqlGetId" parameterClass="map">
+		<![CDATA[ $sql$ ]]>
+		<selectKey resultClass="int"  keyProperty="id" >
+			SELECT last_insert_id() as id ;
+		</selectKey>
+	</insert>
+</sqlMap>
