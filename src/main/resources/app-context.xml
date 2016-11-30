@@ -16,7 +16,7 @@
         </property>
     </bean>
 
-    <import resource="classpath:db/spring-*.xml"/>
+    <import resource="classpath:*/spring-*.xml"/>
 
     <context:annotation-config/>
     <!-- service自动扫描(自动注入) -->

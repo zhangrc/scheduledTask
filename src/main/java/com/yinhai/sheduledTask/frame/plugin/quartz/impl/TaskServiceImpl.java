@@ -24,7 +24,7 @@ public class TaskServiceImpl extends BaseServiceImpl implements TaskService {
 	@Autowired
 	SchedulerFactoryBean schedulerFactoryBean;
 	
-	@PostConstruct
+	//@PostConstruct
 	public void init() throws Exception {
 		//Scheduler scheduler = schedulerFactoryBean.getScheduler();
 		// 这里获取任务信息数据
@@ -170,7 +170,7 @@ public class TaskServiceImpl extends BaseServiceImpl implements TaskService {
 	 * @return
 	 */
 	public List createJobList(){
-		List<ScheduleJob> jobList = getDao().queryForList("taskSchedule.getList");
-	   	return jobList;
+	//	List<ScheduleJob> jobList = getDao().queryForList("taskSchedule.getList");
+	   	return null;
 	  }
 }

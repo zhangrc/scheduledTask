@@ -20,7 +20,7 @@
 
     <!--&lt;!&ndash; 自动扫描的包名 &ndash;&gt;-->
     <!--<context:component-scan base-package="com.yinhai.sheduledTask.controller"></context:component-scan>-->
-    <bean id="serviceController" class="com.yinhai.sheduledTask.frame.controller.ServiceController" scope="prototype" />
+    <bean name="serviceController" class="com.yinhai.sheduledTask.frame.controller.ServiceController" />
     <!-- 视图解析类(必须) -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
