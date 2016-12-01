@@ -15,7 +15,6 @@ public class StartUpListener extends ContextLoaderListener {
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
-        System.out.println("--------------------");
         log.info("系统开始启动");
         super.contextInitialized(event);
         log.info("系统启动完成");

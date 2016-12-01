@@ -13,13 +13,13 @@
     http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 
-    <!--&lt;!&ndash; 默认的注解映射的支持 &ndash;&gt;-->
-    <!--<mvc:annotation-driven/>-->
-    <!--&lt;!&ndash; 对静态资源文件的访问(使用默认的Servlet来响应静态文件。) &ndash;&gt;-->
-    <!--<mvc:default-servlet-handler/>-->
+    <!-- 默认的注解映射的支持 -->
+    <mvc:annotation-driven/>
+    <!-- 对静态资源文件的访问(使用默认的Servlet来响应静态文件。) -->
+    <mvc:default-servlet-handler/>
 
-    <!--&lt;!&ndash; 自动扫描的包名 &ndash;&gt;-->
-    <!--<context:component-scan base-package="com.yinhai.sheduledTask.controller"></context:component-scan>-->
+    <!-- 自动扫描的包名 -->
+    <context:component-scan base-package="com.yinhai.sheduledTask.frame.controller"></context:component-scan>
     <bean name="serviceController" class="com.yinhai.sheduledTask.frame.controller.ServiceController" />
     <!-- 视图解析类(必须) -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
