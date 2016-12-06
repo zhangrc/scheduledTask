@@ -1,8 +1,6 @@
 package com.yinhai.sheduledTask.frame.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.yinhai.sheduledTask.frame.plugin.network.service.NetworkService;
-import com.yinhai.sheduledTask.frame.plugin.network.service.impl.NetworkServiceImpl;
 import com.yinhai.sheduledTask.frame.util.HttpUtils;
 
 import java.util.HashMap;
@@ -13,7 +11,6 @@ import java.util.Map;
  */
 public class ServiceControllerTest {
     public static void main(String[] args) throws Exception {
-        NetworkService service = new NetworkServiceImpl();
         String url = "http://127.0.0.1:8080/sheduledTask/service/postTransferData";
         Map param = new HashMap();
         param.put("hello","");

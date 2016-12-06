@@ -35,12 +35,12 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSONObject;
 
 public class HttpUtils {
-	public static final Charset UTF_8 = Charset.forName("UTF-8");
-	public static final Charset GBK = Charset.forName("GBK");
-	public static final Charset GB2312 = Charset.forName("GB2312");
-	public static final Charset ISO88591 = Charset.forName("ISO-8859-1");
-	
-	/**
+    public static final Charset UTF_8 = Charset.forName("UTF-8");
+    public static final Charset GBK = Charset.forName("GBK");
+    public static final Charset GB2312 = Charset.forName("GB2312");
+    public static final Charset ISO88591 = Charset.forName("ISO-8859-1");
+
+    /**
      * 默认连接超时时间(毫秒)
      * 由于目前的设计原因，该变量定义为静态的，超时时间不能针对每一次的请求做定制
      * 备选优化方案：
@@ -50,10 +50,10 @@ public class HttpUtils {
      */
     public static final int CONNECT_TIMEOUT = 10 * 1000;
     public static final int READ_TIMEOUT = 3 * 1000;
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(HttpUtils.class);
 
-    
+
     /**
      * 私有化构造器
      * 不允许外界创建实例
@@ -63,7 +63,7 @@ public class HttpUtils {
         LOG.warn("You shouldn't create me!!!");
         LOG.warn("Look my doc again!!!");
     }
-    
+
     /**
      * 发起HTTP POST同步请求
      * jdk8使用函数式方式处理请求结果
@@ -76,9 +76,9 @@ public class HttpUtils {
      */
     public static void post(String url, String paramData,
                             ResponseCallback callback) {
-    	doRequest(RequestMethod.POST, url, paramData, null, callback);
+        doRequest(RequestMethod.POST, url, paramData, null, callback);
     }
-    
+
     /**
      * 发起HTTP POST同步请求
      * jdk8使用函数式方式处理请求结果
@@ -91,10 +91,10 @@ public class HttpUtils {
      *                  第二个为resultJson,即响应回来的数据报文
      */
     public static void postFile(String url, String desc, List<File> fileList,
-                            ResponseCallback callback) {
+                                ResponseCallback callback) {
         doRequest(RequestMethod.POST, url, desc, fileList, callback);
     }
-    
+
     /**
      * 发起HTTP GET同步请求
      * jdk8使用函数式方式处理请求结果
@@ -118,7 +118,7 @@ public class HttpUtils {
         }
         doRequest(RequestMethod.GET, url, paramData, null, callback);
     }
-    
+
     /**
      * 发起HTTP PUT同步请求
      * jdk8使用函数式方式处理请求结果
@@ -132,7 +132,7 @@ public class HttpUtils {
     public static void put(String url, String paramData, ResponseCallback callback) {
         doRequest(RequestMethod.PUT, url, paramData, null, callback);
     }
-    
+
     /**
      * 发起HTTP DELETE同步请求
      * jdk8使用函数式方式处理请求结果
@@ -156,8 +156,8 @@ public class HttpUtils {
         }
         doRequest(RequestMethod.DELETE, url, paramData, null, callback);
     }
-    
-	/**
+
+    /**
      * 处理HTTP请求
      * 基于org.apache.http.client包做了简单的二次封装
      *
@@ -224,19 +224,20 @@ public class HttpUtils {
                     ((HttpPost) request).setEntity(builder.build());
                 } else {//不上传文件的普通请求
                     if (null != paramData) {
-                    	List<NameValuePair> params=new ArrayList<NameValuePair>();
-                    	JSONObject jsonObject = JSONObject.parseObject(paramData);
-                    	Iterator<String> it = jsonObject.keySet().iterator();
-                    	while (it.hasNext()) {
-							String key = it.next();
-							params.add(new BasicNameValuePair(key, jsonObject.getString(key)));
-						}
+                        List<NameValuePair> params=new ArrayList<NameValuePair>();
+                        //TODO 这里有问题，如果传入的不是JSON 只是一个参数 ，这个地方肯定是要报错的
+                        JSONObject jsonObject = JSONObject.parseObject(paramData);
+                        Iterator<String> it = jsonObject.keySet().iterator();
+                        while (it.hasNext()) {
+                            String key = it.next();
+                            params.add(new BasicNameValuePair(key, jsonObject.getString(key)));
+                        }
                         ((HttpPost) request).setEntity(new UrlEncodedFormEntity(params, UTF_8));
                     }
                 }
                 break;
             case PUT:
-            	LOG.debug("请求入参:");
+                LOG.debug("请求入参:");
                 LOG.debug(paramData);
                 request = new HttpPut(url);
                 if (null != paramData) {
@@ -246,9 +247,9 @@ public class HttpUtils {
                 }
                 break;
             case DELETE:
-            	String deleteUrl = url;
+                String deleteUrl = url;
                 if (null != paramData) {
-                	deleteUrl += "?" + paramData;
+                    deleteUrl += "?" + paramData;
                 }
                 request = new HttpDelete(deleteUrl);
                 break;
@@ -308,8 +309,8 @@ public class HttpUtils {
             HttpClientUtils.closeQuietly(response);
         }
     }
-	
-	/**
+
+    /**
      * 标识HTTP请求类型枚举
      *
      * @author peiyu
