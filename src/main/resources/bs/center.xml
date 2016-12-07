@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:jms="http://www.springframework.org/schema/jms"
+        xmlns:amq="http://activemq.apache.org/schema/core"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/jms
+	http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+    http://activemq.apache.org/schema/core
+    http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+
+    <!--active mq  默认使用本地的mq -->
+    <bean id="localMqConnectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+        <!--<property name="brokerURL" value="${amq.localhost.url}"/>-->
+    </bean>
+
+    <bean id="jmsTemplete" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="localMqConnectionFactory" />
+        <property name="pubSubDomain" value="true"/>
+        <property name="receiveTimeout" value="10000" />
+        <!-- deliveryMode, priority, timeToLive 的开关要生效，必须配置为true，默认false-->
+        <property name="explicitQosEnabled" value="true"/>
+        <property name="defaultDestination" ref="centerTopic"/>
+        <!-- 发送模式
+             DeliveryMode.NON_PERSISTENT=1:非持久 ;
+             DeliveryMode.PERSISTENT=2:持久
+        -->
+        <property name="deliveryMode" value="2"/>
+    </bean>
+
+
+
+    <bean id="activeMq" class="com.yinhai.sheduledTask.frame.plugin.message.impl.ActiveMqImpl">
+        <property name="jmsTemplate"  ref="jmsTemplete" />
+    </bean>
+
+
+
+    <bean id="sender" class="com.yinhai.sheduledTask.business.dataTransfer.job.center.CenterJob"  parent="senderJob">
+        <property name="imq" ref="activeMq" />
+        <property name="transferService" ref="transferService" />
+    </bean>
+</beans>

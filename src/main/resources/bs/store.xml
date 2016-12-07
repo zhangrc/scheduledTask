@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:jms="http://www.springframework.org/schema/jms"
+        xmlns:amq="http://activemq.apache.org/schema/core"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://activemq.apache.org/schema/core
+    http://activemq.apache.org/schema/core/activemq-core.xsd
+	http://www.springframework.org/schema/jms
+	http://www.springframework.org/schema/jms/spring-jms-3.0.xsd">
+
+    <!-- 部署在门店时的配置文件  -->
+
+    <!-- mqEvent  接收来自中心的mq 的消息 ,把数据库保存到本地数据库-->
+    <bean id="dataPullHandler" class="com.yinhai.sheduledTask.business.dataTransfer.job.store.DataPullHandler">
+        <property name="dataSavaerService" ref="dataSavaerService"/>
+    </bean>
+    <!-- 配置中心的mq 链接 -->
+    <bean id="centerMqConnectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+        <!--<property name="brokerURL" value="${amq.center.url}"/>-->
+        <!-- 这里直接注入会找到不到对应的url,通过加载这个文件的时候，通过set 方法来设置url -->
+    </bean>
+    <!-- 监听中心Mq 的推送 -->
+    <!--<jms:listener-container connection-factory="centerMqConnectionFactory">-->
+    <!--<jms:listener destination="centerTopic"-->
+    <!--subscription="centerTopic"-->
+    <!--ref="dataPullHandler" method="processData" />-->
+    <!--</jms:listener-container>-->
+
+
+    <bean id="messageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="centerMqConnectionFactory" />
+        <!-- 开启订阅模式 -->
+        <property name="pubSubDomain" value="true"/>
+        <property name="destination" ref="centerTopic" />
+        <property name="subscriptionDurable" value="true" />
+        <!---这里是设置接收客户端的ID，在持久化时，但这个客户端不在线时，消息就存在数据库里，直到被这个ID的客户端消费掉-->
+        <property name="clientId" value="1" />
+        <property name="messageListener" ref="dataPullHandler" />
+        <!-- 消息应答方式
+             Session.AUTO_ACKNOWLEDGE  消息自动签收
+             Session.CLIENT_ACKNOWLEDGE  客户端调用acknowledge方法手动签收
+             Session.DUPS_OK_ACKNOWLEDGE 不必必须签收，消息可能会重复发送
+        -->
+        <property name="sessionAcknowledgeMode" value="1"/>
+    </bean>
+
+    <!--<jms:listener-container destination-type="topic"  client-id="153"  connection-factory="centerMqConnectionFactory">-->
+		<!--<jms:listener destination="centerTopic" subscription="centerData" ref="dataPullHandler" method="processData" />-->
+    <!--</jms:listener-container>-->
+
+
+
+
+    <!--  查询数据库获取更新的数据 -->
+    <bean id="sender" class="com.yinhai.sheduledTask.business.dataTransfer.job.store.StoreJob" parent="senderJob">
+        <property name="transferService" ref="transferService" />
+    </bean>
+
+</beans>

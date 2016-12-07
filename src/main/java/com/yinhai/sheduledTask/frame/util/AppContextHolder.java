@@ -8,11 +8,7 @@ import org.springframework.web.context.ContextLoaderListener;
 public final class AppContextHolder implements ApplicationContextAware {
 	private static ApplicationContext context;
 
-	static{
-		if (context == null) {
-			context = ContextLoaderListener.getCurrentWebApplicationContext();
-		}
-	}
+
 
 	/**
 	 * 根据 spring 配置中 bean id 返回 bean 的实例

@@ -17,7 +17,7 @@ public class RpcDTO {
 	/**传递的参数**/
 	private Map param ;
 	/**来源系统 **/
-	private String from = ConstUtil.FROM_CHAIN+"";
+	private String from = NetWorkConstUtil.FROM_CHAIN+"";
 	/**url**/
 	private String url;
 	
@@ -52,9 +52,9 @@ public class RpcDTO {
 	public Map toMap(){
 		Map map = new HashMap(param.entrySet().size()+3);
 		map.putAll(param);
-		map.put(ConstUtil.FROM, this.from);
-		map.put(ConstUtil.SERVICENAME,this.service );
-		map.put(ConstUtil.METHODNAME, this.method);
+		map.put(NetWorkConstUtil.FROM, this.from);
+		map.put(NetWorkConstUtil.SERVICENAME,this.service );
+		map.put(NetWorkConstUtil.METHODNAME, this.method);
 		return map;
 	}
 	

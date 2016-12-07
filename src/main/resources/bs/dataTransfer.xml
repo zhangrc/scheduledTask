@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:amq="http://activemq.apache.org/schema/core"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://activemq.apache.org/schema/core
+    http://activemq.apache.org/schema/core/activemq-core-5.5.0.xsd">
+
+
+    <amq:topic id="centerTopic" physicalName="centerTopic"/>
+
+    <bean id="dataSavaerService" class="com.yinhai.sheduledTask.business.dataTransfer.service.impl.DataSaverServiceImpl">
+        <property name="customersMap" ref="customersMap"/>
+    </bean>
+
+    <bean id="transferService" class="com.yinhai.sheduledTask.business.dataTransfer.service.impl.TransferServiceImpl"/>
+
+    <bean id="senderJob" class="com.yinhai.sheduledTask.business.dataTransfer.job.SenderJob" abstract="true">
+        <property name="customersMap" ref="customersMap"/>
+    </bean>
+
+    <bean id="customersMap" class="java.util.HashMap">
+        <constructor-arg>
+            <map>
+                <!--  配置对应table 的处理方式 ， key 是table 的name ，value 是处理的类 -->
+                <!--<entry key="base_transfer"  value-ref="base_transfer"  />-->
+                <!--<entry key="test"  value-ref="testTable" />-->
+                <entry key="k_sfmx" value-ref="SfmxTable" />
+                <entry key="w_transfer_goods" value-ref="transferGoods" />
+            </map>
+        </constructor-arg>
+    </bean>
+
+
+    <bean id="SfmxTable" class="com.yinhai.sheduledTask.business.dataTransfer.customers.SfmxTable" />
+    <bean id="transferGoods" class="com.yinhai.sheduledTask.business.dataTransfer.customers.TransferGoods" />
+</beans>

@@ -107,16 +107,16 @@ public class ParamUtil {
 		json.append("}");
 		String r = null;
 		switch (security) {
-		case ConstUtil.SECURITY_LEVEL_ONE:
+		case NetWorkConstUtil.SECURITY_LEVEL_ONE:
 			r = json.toString();
 			break;
-		case ConstUtil.SECURITY_LEVEL_TWO:
+		case NetWorkConstUtil.SECURITY_LEVEL_TWO:
 			r = new String(Base64.encodeBase64(json.toString().getBytes(UTF8), true, true), UTF8);
 			break;
-		case ConstUtil.SECURITY_LEVEL_THREE:
+		case NetWorkConstUtil.SECURITY_LEVEL_THREE:
 			r = new String(Base64.encodeBase64(json.toString().getBytes(UTF8), true, true), UTF8);
 			break;
-		case ConstUtil.SECURITY_LEVEL_FOUR:
+		case NetWorkConstUtil.SECURITY_LEVEL_FOUR:
 			r = new String(Base64.encodeBase64(json.toString().getBytes(UTF8), true, true), UTF8);
 			break;
 		default:
@@ -189,16 +189,16 @@ public class ParamUtil {
 	private static Object decrypt(String param, Integer security) throws UnsupportedEncodingException {
 		String json = null;
 		switch (security) {
-		case ConstUtil.SECURITY_LEVEL_ONE:
+		case NetWorkConstUtil.SECURITY_LEVEL_ONE:
 			json = param;
 			break;
-		case ConstUtil.SECURITY_LEVEL_TWO:
+		case NetWorkConstUtil.SECURITY_LEVEL_TWO:
 			json = new String(Base64.decodeBase64(param), UTF8);
 			break;
-		case ConstUtil.SECURITY_LEVEL_THREE:
+		case NetWorkConstUtil.SECURITY_LEVEL_THREE:
 			json = new String(Base64.decodeBase64(param), UTF8);
 			break;
-		case ConstUtil.SECURITY_LEVEL_FOUR:
+		case NetWorkConstUtil.SECURITY_LEVEL_FOUR:
 			json = new String(Base64.decodeBase64(param), UTF8);
 			break;
 		default:

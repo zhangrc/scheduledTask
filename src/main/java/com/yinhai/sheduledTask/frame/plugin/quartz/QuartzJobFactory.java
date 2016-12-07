@@ -16,24 +16,24 @@ import java.util.Map;
  */
 public class QuartzJobFactory implements Job {
 
-	@Override
-	public void execute(JobExecutionContext context) throws JobExecutionException {
-		Map<String,Object> dto = new HashMap<String,Object>();
-		ScheduleJob scheduleJob = (ScheduleJob) context.getMergedJobDataMap().get("scheduleJob");
-		try {
-			TaskUtils.post(new RpcDTO(scheduleJob.getSpring_id(), scheduleJob.getMethod_name(), dto));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void work(){
-		 Map<String,Object> dto = new HashMap<String,Object>();
-		 try {
-			 TaskUtils.post(new RpcDTO("maintenanceService","addImportantDetailByAuto",dto));
-			 TaskUtils.post(new RpcDTO("maintenanceService","addNormalDetailByAuto",dto));
-		 } catch (Exception e) {
-			e.printStackTrace();
-		}
-	 }
+    @Override
+    public void execute(JobExecutionContext context) throws JobExecutionException {
+        Map<String, Object> dto = new HashMap<String, Object>();
+        ScheduleJob scheduleJob = (ScheduleJob) context.getMergedJobDataMap().get("scheduleJob");
+        try {
+            TaskUtils.post(new RpcDTO(scheduleJob.getSpring_id(), scheduleJob.getMethod_name(), dto));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void work() {
+        Map<String, Object> dto = new HashMap<String, Object>();
+        try {
+            TaskUtils.post(new RpcDTO("maintenanceService", "addImportantDetailByAuto", dto));
+            TaskUtils.post(new RpcDTO("maintenanceService", "addNormalDetailByAuto", dto));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

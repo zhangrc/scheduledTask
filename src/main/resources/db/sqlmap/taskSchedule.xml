@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="taskSchedule">
+	<!--查询 list-->
+	<select id="getList" parameterClass="map" resultClass="com.yinhai.sheduledTask.frame.plugin.quartz.domain.ScheduleJob">
+		select
+			a.JOB_ID as  job_id,  <!--任务编码 -->
+			a.JOB_NAME as  job_name,  <!--任务名称 -->
+			a.JOB_GROUP as  job_group,  <!--任务分组 -->
+			a.CRON_EXPRESSION as  cron_expression,  <!--时间表达式 -->
+			a.SPRING_ID as  spring_id,  <!--service名称 -->
+			a.METHOD_NAME as  method_name,  <!--调用方法名称 -->
+			a.DESCRIPTION as  description,  <!--任务描述(关联具体任务gsp_maintenance_template表) -->
+			a.CREATE_TIME as  create_time,  <!--创建时间 -->
+			a.STATUS as  status,  <!--状态：1有效；0无效 -->
+			a.porgid
+		from gsp_task_schedule a
+		where a.STATUS=1
+	</select>
+	
+	
+	<!--根据id 查询-->
+	<select id="get" parameterClass="map" resultClass="java.util.HashMap">
+		select
+			a.JOB_ID as  job_id,  <!--任务编码 -->
+			a.JOB_NAME as  job_name,  <!--任务名称 -->
+			a.JOB_GROUP as  job_group,  <!--任务分组 -->
+			a.CRON_EXPRESSION as  cron_exprssion,  <!--时间表达式 -->
+			a.SPRING_ID as  spring_id,  <!--service名称 -->
+			a.METHOD_NAME as  method_name,  <!--调用方法名称 -->
+			a.DESCRIPTION as  description,  <!--任务描述(关联具体任务gsp_maintenance_template表) -->
+			a.CREATE_TIME as  create_time,  <!--创建时间 -->
+			a.STATUS as  status,  <!--状态：1有效；0无效 -->
+			a.porgid
+		from gsp_task_schedule a
+		where a.job_id = #job_id#
+	</select>
+	 
+	<!-- 查询count -->
+	<select id="getCount" parameterClass="map" resultClass="Integer">
+		select count(1) from gsp_task_schedule a
+		where 1=1 
+		<dynamic>
+			<isNotEmpty prepend="AND" property="job_id">   <!-- 任务编码   -->
+		       a.job_id = #job_id:VARCHAR#           
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="job_name">   <!-- 任务名称   -->
+		       a.job_name = #job_name:VARCHAR#           
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="job_group">   <!-- 任务分组   -->
+		       a.job_group = #job_group:VARCHAR#           
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cron_exprssion">   <!-- 时间表达式   -->
+		       a.cron_expression = #cron_expression:VARCHAR#           
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="spring_id">   <!-- service名称   -->
+		       a.spring_id = #spring_id:VARCHAR#           
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="method_name">   <!-- 调用方法名称   -->
+		       a.method_name = #method_name:VARCHAR#           
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="description">   <!-- 任务描述(关联具体任务gsp_maintenance_template表)   -->
+		       a.description = #description:VARCHAR#           
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="create_time">   <!-- 创建时间   -->
+		       a.create_time = #create_time:DATETIME#           
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="status">   <!-- 状态：1有效；0无效   -->
+		       a.status = #status:TINYINT#           
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!--查询某个字段是否存在-->
+	<select id="getCountBy" parameterClass="map" resultClass="Integer" >
+		select count(1) from gsp_task_schedule a where 1=1 
+		<isNotEmpty prepend="AND" property="job_id_c">   <!-- 任务编码   -->
+		       a.job_id = #job_id:VARCHAR#           
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="job_name_c">   <!-- 任务名称   -->
+		       a.job_name = #job_name:VARCHAR#           
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="job_group_c">   <!-- 任务分组   -->
+		       a.job_group = #job_group:VARCHAR#           
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="cron_exprssion_c">   <!-- 时间表达式   -->
+		       a.cron_exprssion = #cron_exprssion:VARCHAR#           
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="spring_id_c">   <!-- service名称   -->
+		       a.spring_id = #spring_id:VARCHAR#           
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="method_name_c">   <!-- 调用方法名称   -->
+		       a.method_name = #method_name:VARCHAR#           
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="description_c">   <!-- 任务描述(关联具体任务gsp_maintenance_template表)   -->
+		       a.description = #description:VARCHAR#           
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="create_time_c">   <!-- 创建时间   -->
+		       a.create_time = #create_time:DATETIME#           
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="status_c">   <!-- 状态：1有效；0无效   -->
+		       a.status = #status:TINYINT#           
+		</isNotEmpty>
+	</select>
+</sqlMap>

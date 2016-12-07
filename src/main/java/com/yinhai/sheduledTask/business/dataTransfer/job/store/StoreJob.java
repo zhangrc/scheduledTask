@@ -6,7 +6,7 @@ import com.yinhai.sheduledTask.business.dataTransfer.ext.TransferCustomers;
 import com.yinhai.sheduledTask.business.dataTransfer.job.SenderJob;
 import com.yinhai.sheduledTask.business.dataTransfer.service.TransferService;
 import com.yinhai.sheduledTask.frame.plugin.network.service.NetworkService;
-import com.yinhai.sheduledTask.frame.plugin.network.util.ConstUtil;
+import com.yinhai.sheduledTask.frame.plugin.network.util.NetWorkConstUtil;
 import com.yinhai.sheduledTask.frame.system.SystemConfig;
 import com.yinhai.sheduledTask.frame.system.SystemConst;
 import com.yinhai.sheduledTask.frame.util.ValidateUtil;
@@ -27,7 +27,7 @@ public class StoreJob extends SenderJob {
     @Override
     public void sendTo(Map sendingData) throws Exception {
         TransferApplication.getLog().debug("store  job  sendingData " + sendingData);
-        String resultString = networkService.post(TransferApplication.centerUrl, sendingData, ConstUtil.SECURITY_LEVEL_ONE);
+        String resultString = networkService.post(TransferApplication.centerUrl, sendingData, NetWorkConstUtil.SECURITY_LEVEL_ONE);
         Map map = JSONObject.parseObject(resultString);
         if(!ValidateUtil.isEmpty(map.get("success"))) {
             transferService.saveTransferLog(sendingData, true);

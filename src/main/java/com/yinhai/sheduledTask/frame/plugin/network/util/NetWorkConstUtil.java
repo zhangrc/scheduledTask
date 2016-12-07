@@ -1,6 +1,6 @@
 package com.yinhai.sheduledTask.frame.plugin.network.util;
 
-public interface ConstUtil {
+public interface NetWorkConstUtil {
 
 	/** 接口安全加密复杂度 从低到高 */
 	int SECURITY_LEVEL_ONE = 1;
